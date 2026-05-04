@@ -1,0 +1,17 @@
+{
+  "com.liferay.client.extension.type.configuration.CETConfiguration~namankit-scheme" : {
+    ":configurator:policy" : "force",
+    "baseURL" : "${portalURL}/o/Namankit_scheme",
+    "buildTimestamp" : 1777647503294,
+    "description" : "",
+    "dxp.lxc.liferay.com.virtualInstanceId" : "default",
+    "name" : "Namankit Scheme",
+    "projectId" : "namankitscheme",
+    "projectName" : "Namankit_scheme",
+    "properties" : [ ],
+    "sourceCodeURL" : "",
+    "type" : "customElement",
+    "typeSettings" : [ "friendlyURLMapping=namankit-scheme", "instanceable=false", "urls=assets\\index-B0KMHwz6.js", "useESM=true", "portletCategoryName=category.client-extensions", "htmlElementName=namankit-scheme" ],
+    "webContextPath" : "/Namankit_scheme"
+  }
+}

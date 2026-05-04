@@ -1,0 +1,14 @@
+assemble:
+    - from: vite-build
+      into: static
+
+namankit-scheme:
+    friendlyURLMapping: namankit-scheme
+    htmlElementName: namankit-scheme
+    instanceable: false
+    name: Namankit Scheme
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - assets/*.js
+    useESM: true
