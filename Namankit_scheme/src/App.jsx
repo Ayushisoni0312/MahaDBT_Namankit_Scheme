@@ -664,29 +664,40 @@ const SCHOOL_NAV = [
   { key: "studentReg", label: "Student Registration", icon: "👨‍🎓" },
 ];
 
-function SchoolApp({ role }) {
+export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=false, setShowSchoolProfile=()=>{}, isDisabled=false, selectedSchoolForProfile=null, onSchoolBasicDetailsLoadingChange }) {
+  console.log("isDisabled", isDisabled);
   const path = window.location.pathname;
   if (path === "/preview") return <PreviewPage />;
-
+ 
   const [screen,          setScreen]          = useState("schoolList");
-  const [view,            setView]            = useState("list");
+  const [view,            setView]            = useState(list);
   const [activeTab,       setActiveTab]       = useState("School Basic Details");
-  const [schoolProfileId, setSchoolProfileId] = useState(null);
-  const [isEditMode,      setIsEditMode]      = useState(false);
+  const [schoolProfileId, setSchoolProfileId] = useState(selectedSchoolForProfile?.id || null);
+  const [isEditMode,      setIsEditMode]      = useState(Boolean(selectedSchoolForProfile?.id));
   const [masterData,      setMasterData]      = useState({
     schoolBasic: {}, landDetails: {}, hostelDetails: {}, diningDetails: {},
     labDetails: {}, libraryDetails: {}, teacherDetails: {}, extraCurriculum: {},
     sportsDetails: {}, medicalDetails: {}, feeMaster: {}, bankDetails: {},
   });
-
+ 
   const handleSaveSection = (key, data) =>
     setMasterData((prev) => ({ ...prev, [key]: data }));
-
+ 
+  // Handle selected school from POApprovalList for prepopulation
+  useEffect(() => {
+    if (selectedSchoolForProfile && selectedSchoolForProfile.id) {
+      setSchoolProfileId(selectedSchoolForProfile.id);
+      setIsEditMode(true);
+      setActiveTab("School Basic Details");
+      setView("details");
+    }
+  }, [selectedSchoolForProfile]);
+ 
   const handleEdit = (schoolId) => {
     setSchoolProfileId(schoolId); setIsEditMode(true);
     setActiveTab("School Basic Details"); setView("details");
   };
-
+ 
   const handleNewSchool = () => {
     setSchoolProfileId(null); setIsEditMode(false);
     setMasterData({
@@ -696,28 +707,28 @@ function SchoolApp({ role }) {
     });
     setActiveTab("School Basic Details"); setView("details");
   };
-
+ 
   const renderTab = () => {
     const p = { onTabChange: setActiveTab, schoolProfileId, isEditMode };
     switch (activeTab) {
       case "School Basic Details":
-        return <SchoolBasicDetails {...p} onSave={(d) => { handleSaveSection("schoolBasic", d); if (d?.schoolId) setSchoolProfileId(d.schoolId); }} />;
-      case "Land Details":                return <LandDetails              {...p} onSave={(d) => handleSaveSection("landDetails",    d)} />;
-      case "Hostel Details":              return <HostelDetails            {...p} onSave={(d) => handleSaveSection("hostelDetails",  d)} />;
-      case "Dining Facilities Details":   return <DiningFacilitiesDetails  {...p} onSave={(d) => handleSaveSection("diningDetails",  d)} />;
-      case "Lab Details":                 return <LabDetails               {...p} onSave={(d) => handleSaveSection("labDetails",     d)} />;
-      case "Library Details":             return <LibraryDetails           {...p} onSave={(d) => handleSaveSection("libraryDetails", d)} />;
-      case "Teachers Details":            return <TeachersDetails          {...p} onSave={(d) => handleSaveSection("teacherDetails", d)} />;
-      case "Extra Curriculum Activities": return <ExtraCurriculumActivities {...p} onSave={(d) => handleSaveSection("extraCurriculum", d)} />;
-      case "Sports Facilities":           return <SportsFacilities         {...p} onSave={(d) => handleSaveSection("sportsDetails",  d)} />;
-      case "Medical Facilities":          return <MedicalFacilities        {...p} onSave={(d) => handleSaveSection("medicalDetails", d)} />;
-      case "Profile FeeMaster":           return <ProfileFeeMaster         {...p} onSave={(d) => handleSaveSection("feeMaster",      d)} />;
-      case "School Bank Details":         return <SchoolBankDetails        {...p} onSave={(d) => handleSaveSection("bankDetails",    d)} />;
-      case "Final Submit":                return <FinalSubmit data={masterData} onTabChange={setActiveTab} schoolProfileId={schoolProfileId} />;
+        return <SchoolBasicDetails {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => { handleSaveSection("schoolBasic", d); if (d?.schoolId) setSchoolProfileId(d.schoolId); }} />;
+      case "Land Details":                return <LandDetails              {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("landDetails",    d)} />;
+      case "Hostel Details":              return <HostelDetails            {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("hostelDetails",  d)} />;
+      case "Dining Facilities Details":   return <DiningFacilitiesDetails  {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("diningDetails",  d)} />;
+      case "Lab Details":                 return <LabDetails               {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("labDetails",     d)} />;
+      case "Library Details":             return <LibraryDetails           {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("libraryDetails", d)} />;
+      case "Teachers Details":            return <TeachersDetails          {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("teacherDetails", d)} />;
+      case "Extra Curriculum Activities": return <ExtraCurriculumActivities {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("extraCurriculum", d)} />;
+      case "Sports Facilities":           return <SportsFacilities         {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("sportsDetails",  d)} />;
+      case "Medical Facilities":          return <MedicalFacilities        {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("medicalDetails", d)} />;
+      case "Profile FeeMaster":           return <ProfileFeeMaster         {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("feeMaster",      d)} />;
+      case "School Bank Details":         return <SchoolBankDetails        {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("bankDetails",    d)} />;
+      case "Final Submit":                return  <FinalSubmit data={masterData} onTabChange={setActiveTab} schoolProfileId={schoolProfileId} />;
       default: return null;
     }
   };
-
+ 
   // Helper: deep-check if an object has any meaningful (non-empty) value
   const hasFilled = (obj) => {
     if (obj == null) return false;
@@ -729,7 +740,7 @@ function SchoolApp({ role }) {
     }
     return false;
   };
-
+ 
   const SECTION_ORDER = [
     ["schoolBasic",    "School Basic Details"],
     ["landDetails",    "Land Details"],
@@ -744,7 +755,7 @@ function SchoolApp({ role }) {
     ["feeMaster",      "Profile FeeMaster"],
     ["bankDetails",    "School Bank Details"],
   ];
-
+ 
   const validateMasterData = (data) => {
     const missing = [];
     for (const [key, label] of SECTION_ORDER) {
@@ -752,7 +763,7 @@ function SchoolApp({ role }) {
     }
     return missing;
   };
-
+ 
   const handleTabChange = (tab) => {
     if (tab === "Final Submit") {
       const missing = validateMasterData(masterData);
@@ -766,7 +777,7 @@ function SchoolApp({ role }) {
     }
     setActiveTab(tab);
   };
-
+ 
   const renderScreen = () => {
     switch (screen) {
       case "schoolList":
@@ -785,7 +796,9 @@ function SchoolApp({ role }) {
         return (
           <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
             <div style={{ background: "#f0f4f5", padding: "8px 20px", borderBottom: "1px solid #dee2e6", display: "flex", alignItems: "center", gap: 12 }}>
-              <button onClick={() => setView("list")} style={{ background: "none", border: "1px solid #1a7a8a", color: "#1a7a8a", borderRadius: 4, padding: "5px 14px", fontSize: 13, cursor: "pointer" }}>
+              <button onClick={() => {setView("list");
+                setShowSchoolProfile?.(false);
+              }} style={{ background: "none", border: "1px solid #1a7a8a", color: "#1a7a8a", borderRadius: 4, padding: "5px 14px", fontSize: 13, cursor: "pointer" }}>
                 ← Back to List
               </button>
               {isEditMode && schoolProfileId && (
@@ -794,7 +807,7 @@ function SchoolApp({ role }) {
                 </span>
               )}
             </div>
-            <TabNav activeTab={activeTab} onTabChange={handleTabChange} />
+            <TabNav activeTab={activeTab} onTabChange={handleTabChange} isDisabled={isDisabled}/>
             <div style={{ background: "#f0f4f5", flex: 1 }}>{renderTab()}</div>
           </div>
         );
@@ -803,12 +816,12 @@ function SchoolApp({ role }) {
       default: return null;
     }
   };
-
+ 
   return (
     <div style={st.pageWrap}>
-      <Header title="Namankit — School Panel" role={role} />
+      {!hideHeader && <Header title="Namankit — School Panel" role={role} />}
       <div style={st.body}>
-        <Sidebar items={SCHOOL_NAV} active={screen} onChange={(s) => { setScreen(s); setView("list"); }} />
+        {!hideSidebar && <Sidebar items={SCHOOL_NAV} active={screen} onChange={(s) => { setScreen(s); setView("list"); }} />}
         <div style={st.content}>{renderScreen()}</div>
       </div>
       <Footer />
@@ -831,8 +844,15 @@ function ComingSoon({ title }) {
 export default function App() {
   const urlParams = new URLSearchParams(window.location.search);
   const page = urlParams.get('page');
+  const path = window.location.pathname;
+
   // ✅ PUBLIC — no role check needed, must be FIRST
-   if (page === "school-registration" || page === "school-master") {
+   if (
+    page === "school-registration" ||
+    page === "school-master" 
+    // path.includes("schoolregistration") ||
+    // path.includes("school-registration")
+  ) {
     return <SchoolMasterForm />;
   }
 

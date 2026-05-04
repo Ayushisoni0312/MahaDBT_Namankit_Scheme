@@ -1,0 +1,107 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Production
+/build
+/dist
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Testing
+/coverage
+
+# Misc
+*.log
+*.tmp
+*.temp
+
+# Vite specific
+.vite/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# ESLint cache
+.eslintcache
+
+# Optional: lock files (uncomment if you don't want to track)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml# Node modules
+node_modules/
+
+# Vite/build output
+dist/
+build/
+.vite/
+
+# Environment files
+.env
+.env.local
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Test coverage
+coverage/
+
+# Caches
+.cache/
+.parcel-cache/
+
+# Misc
+*.tgz
+out/
+
+# Windows
+Thumbs.db
+
+# Lockfiles (optional — keep if you track them)
+# package-lock.json
+# yarn.lock

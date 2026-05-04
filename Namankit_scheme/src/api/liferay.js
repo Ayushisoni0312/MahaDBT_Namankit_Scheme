@@ -7,9 +7,9 @@ const buildHeaders = () => ({
   Authorization: "Basic " + btoa("prabhudasu:root"),
   // "x-csrf-token": window.Liferay?.authToken || "",
 });
-
+ 
 const opts = { credentials: "include", headers: buildHeaders() };
-
+ 
 // ── Reads Liferay error body and surfaces it clearly ──────────
 async function throwWithBody(res, method, path) {
   let body = "";
@@ -31,14 +31,14 @@ async function throwWithBody(res, method, path) {
   if (typeof window.__showApiError === "function") window.__showApiError(err);
   throw err;
 }
-
+ 
 // ── Generic fetchers ──────────────────────────────────────────
 export async function apiFetch(path) {
   const res = await fetch(path, opts);
   if (!res.ok) await throwWithBody(res, "GET", path);
   return res.json();
 }
-
+ 
 export async function apiPost(path, body) {
   const res = await fetch(path, {
     ...opts,
@@ -48,7 +48,7 @@ export async function apiPost(path, body) {
   if (!res.ok) await throwWithBody(res, "POST", path);
   return res.json();
 }
-
+ 
 export async function apiPatch(path, body) {
   const res = await fetch(path, {
     ...opts,
@@ -58,33 +58,33 @@ export async function apiPatch(path, body) {
   if (!res.ok) await throwWithBody(res, "PATCH", path);
   return res.json();
 }
-
+ 
 // ── Location dropdowns ────────────────────────────────────────
 export const getStates = () =>
   apiFetch("/o/c/states?pageSize=200&sort=name:asc").then((d) =>
     (d.items || []).map((r) => ({ value: r.id, label: r.name })),
   );
-
+ 
 export const getDistricts = (stateId) =>
   apiFetch(
     `/o/c/districts?filter=r_state_c_stateId eq '${stateId}'&pageSize=200&sort=name:asc`,
   ).then((d) => (d.items || []).map((r) => ({ value: r.id, label: r.name })));
-
+ 
 export const getTalukas = (districtId) =>
   apiFetch(
     `/o/c/talukas?filter=districtId eq '${districtId}'&pageSize=200&sort=name:asc`,
   ).then((d) => (d.items || []).map((r) => ({ value: r.id, label: r.name })));
-
+ 
 export const getVillages = (talukaId) =>
   apiFetch(
     `/o/c/villages?filter=talukaId eq '${talukaId}'&pageSize=200&sort=name:asc`,
   ).then((d) => (d.items || []).map((r) => ({ value: r.id, label: r.name })));
-
+ 
 export const getPoNames = (villageId) =>
   apiFetch(
     `/o/c/ponames?filter=villageId eq '${villageId}'&pageSize=200&sort=name:asc`,
   ).then((d) => (d.items || []).map((r) => ({ value: r.id, label: r.name })));
-
+ 
 // ── Section POST endpoints ────────────────────────────────────
 export const saveSchoolBasicDetails = (p) =>
   apiPost("/o/c/namankitschoolprofiles", p);
@@ -108,7 +108,7 @@ export const saveSchoolBankDetails = (p) =>
   apiPost("/o/c/schoolbankdetails", p);
 export const saveStudentRegistration = (p) =>
   apiPost("/o/c/studentregistarions", p);
-
+ 
 // ── Section PATCH endpoints (update by Liferay record id) ─────
 export const patchSchoolBasicDetails = (id, p) =>
   apiPatch(`/o/c/namankitschoolprofiles/${id}`, p);
@@ -140,28 +140,28 @@ export const patchSchoolBankDetails = (id, p) =>
   apiPatch(`/o/c/schoolbankdetails/${id}`, p);
 export const patchStudentRegistration = (id, p) =>
   apiPatch(`/o/c/studentregistarions/${id}`, p);
-
+ 
 // Fetch student registrations — used for approval list (filtered by schoolProfileId)
 export const getStudentApprovalList = (id) =>
   apiFetch(`/o/c/studentregistarions${bySchoolMany(id)}`).then(
     (d) => d.items || [],
   );
-
+ 
 // ── Section GET endpoints (filtered by schoolProfileId) ───────
 // schoolProfileId = Liferay auto-generated id from namankitschoolprofiles
 // bySchool  → single record (most sections)
 // bySchoolMany → multiple records (teachers, fee rows, cultural, tours)
-
+ 
 const bySchool = (id) =>
   id
     ? `?filter=schoolProfileId eq ${id}&pageSize=1&sort=dateCreated:desc`
     : `?pageSize=1&sort=dateCreated:desc`;
-
+ 
 const bySchoolMany = (id) =>
   id
     ? `?filter=schoolProfileId eq ${id}&pageSize=200&sort=dateCreated:desc`
     : `?pageSize=200&sort=dateCreated:desc`;
-
+ 
 // Get ALL schools — for List Page
 export const getAllSchools = () =>
   apiFetch(
@@ -224,7 +224,7 @@ export const getSchoolBankDetails = (id) =>
   apiFetch(`/o/c/schoolbankdetails${bySchool(id)}`).then(
     (d) => (d.items || [])[0] || null,
   );
-
+ 
 // Bill Generation
 export const saveBillGeneration = (p) => apiPost("/o/c/billgenerations", p);
 export const getBillGenerations = () =>
@@ -232,7 +232,14 @@ export const getBillGenerations = () =>
     (d) => d.items || [],
   );
 export const getBillById = (id) => apiFetch(`/o/c/billgenerations/${id}`);
-
+ 
+// GR Details
+export const getGRDetails = () =>
+  apiFetch("/o/c/grdetails?pageSize=200&sort=dateCreated:desc").then(
+    (d) => d.items || [],
+  );
+export const getGRDetailById = (id) => apiFetch(`/o/c/grdetails/${id}`);
+ 
 // Bill child records
 export const saveBillAdmissionSummary = (p) =>
   apiPost("/o/c/billadmissionsummary", p);
@@ -240,7 +247,7 @@ export const saveBillStudent = (p) => apiPost("/o/c/billstudents", p);
 export const saveBillArrear = (p) => apiPost("/o/c/billarrears", p);
 export const saveBillDeduction = (p) => apiPost("/o/c/billdeductions", p);
 export const saveBillPODeduction = (p) => apiPost("/o/c/billpodeductions", p);
-
+ 
 // Fetch children by billGenerationId
 export const getBillStudents = (billId) =>
   apiFetch(
@@ -258,7 +265,7 @@ export const getBillPODeductions = (billId) =>
   apiFetch(
     `/o/c/billpodeductions?filter=billGenerationId eq ${billId}&pageSize=200`,
   ).then((d) => d.items || []);
-
+ 
 // ── Picklist helper ───────────────────────────────────────────
 // Fetches picklist entries by ERC (External Reference Code)
 // Returns [{ value: key, label: name }] for use in SelectInput
@@ -273,7 +280,7 @@ export async function getPicklist(erc) {
   );
   return (entries.items || []).map((e) => ({ value: e.key, label: e.name }));
 }
-
+ 
 // ── Qualification Masters ─────────────────────────────────────
 export const getQualifications = () =>
   apiFetch("/o/c/qualificationmasters?pageSize=200&sort=name:asc").then((d) =>
