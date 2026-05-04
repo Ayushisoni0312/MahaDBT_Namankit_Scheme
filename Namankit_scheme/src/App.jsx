@@ -713,17 +713,17 @@ export function SchoolApp({ role = '', list = 'list', hideSidebar = false, hideH
     switch (activeTab) {
       case "School Basic Details":
         return <SchoolBasicDetails {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => { handleSaveSection("schoolBasic", d); if (d?.schoolId) setSchoolProfileId(d.schoolId); }} />;
-      case "Land Details": return <LandDetails              {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("landDetails", d)} />;
-      case "Hostel Details": return <HostelDetails            {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("hostelDetails", d)} />;
-      case "Dining Facilities Details": return <DiningFacilitiesDetails  {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("diningDetails", d)} />;
-      case "Lab Details": return <LabDetails               {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("labDetails", d)} />;
-      case "Library Details": return <LibraryDetails           {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("libraryDetails", d)} />;
-      case "Teachers Details": return <TeachersDetails          {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("teacherDetails", d)} />;
-      case "Extra Curriculum Activities": return <ExtraCurriculumActivities {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("extraCurriculum", d)} />;
-      case "Sports Facilities": return <SportsFacilities         {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("sportsDetails", d)} />;
-      case "Medical Facilities": return <MedicalFacilities        {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("medicalDetails", d)} />;
-      case "Profile FeeMaster": return <ProfileFeeMaster         {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("feeMaster", d)} />;
-      case "School Bank Details": return <SchoolBankDetails        {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("bankDetails", d)} />;
+      case "Land Details": return <LandDetails              {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("landDetails", d)} />;
+      case "Hostel Details": return <HostelDetails            {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("hostelDetails", d)} />;
+      case "Dining Facilities Details": return <DiningFacilitiesDetails  {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("diningDetails", d)} />;
+      case "Lab Details": return <LabDetails               {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("labDetails", d)} />;
+      case "Library Details": return <LibraryDetails           {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("libraryDetails", d)} />;
+      case "Teachers Details": return <TeachersDetails          {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("teacherDetails", d)} />;
+      case "Extra Curriculum Activities": return <ExtraCurriculumActivities {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("extraCurriculum", d)} />;
+      case "Sports Facilities": return <SportsFacilities         {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("sportsDetails", d)} />;
+      case "Medical Facilities": return <MedicalFacilities        {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("medicalDetails", d)} />;
+      case "Profile FeeMaster": return <ProfileFeeMaster         {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("feeMaster", d)} />;
+      case "School Bank Details": return <SchoolBankDetails        {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => handleSaveSection("bankDetails", d)} />;
       case "Final Submit": return <FinalSubmit data={masterData} onTabChange={setActiveTab} schoolProfileId={schoolProfileId} />;
       default: return null;
     }

@@ -18,6 +18,7 @@ import {
   mapRecordToForm, mapCulturalToRows, mapToursToRows,
 } from "../api/sportsDetails";
 import { getPicklist } from "../api/liferay";
+import Loader from "../components/Loader";
 
 const YES_NO = ["Yes", "No"];
 const MAGAZINE_TYPES = [
@@ -29,7 +30,7 @@ const MAGAZINE_TYPES = [
 // YEARS loaded from Liferay picklist
 
 const themeStyles = {
-  container: { padding: "var(--spacing-md, 16px) var(--spacing-lg, 20px)" },
+  container: { padding: "var(--spacing-md, 16px) var(--spacing-lg, 20px)", position: "relative" },
   card:      { background: "var(--card-bg, #ffffff)", border: "1px solid var(--border-color, #d6e0e0)", borderRadius: "var(--radius-sm, 3px)", padding: "18px 20px 22px", marginBottom: "20px" },
   addBtnRow: { display: "flex", justifyContent: "center", marginTop: "10px", marginBottom: "20px" },
 };
@@ -45,12 +46,13 @@ const emptyForm = {
   schoolMagazineTypeId:                     "",
 };
 
-export default function SportsFacilities({ onTabChange, onSave, schoolProfileId, isEditMode }) {
+export default function SportsFacilities({ onTabChange, onSave, schoolProfileId, isEditMode, onLoadingChange }) {
   const [form,         setForm]         = useState(emptyForm);
   const [saving,       setSaving]       = useState(false);
   const [alert,        setAlert]        = useState(null);
   const [recordId,     setRecordId]     = useState(null);
   const [loadingData,  setLoadingData]  = useState(false);
+  const [lookupLoadingCount, setLookupLoadingCount] = useState(0);
   const [yearOpts,     setYearOpts]     = useState([]);
 
   const [culturalRows, setCulturalRows] = useState([]);
@@ -59,9 +61,18 @@ export default function SportsFacilities({ onTabChange, onSave, schoolProfileId,
   const [tourRows,     setTourRows]     = useState([]);
   const [newTour,      setNewTour]      = useState({ yearId: "", programName: "", place: "", purpose: "" });
 
+  const trackLookupCall = (promise) => {
+    setLookupLoadingCount((count) => count + 1);
+    return promise.finally(() => setLookupLoadingCount((count) => Math.max(0, count - 1)));
+  };
+
+  useEffect(() => {
+    onLoadingChange?.(loadingData || lookupLoadingCount > 0);
+  }, [loadingData, lookupLoadingCount, onLoadingChange]);
+
   // ── Load Year picklist ───────────────────────────────────
   useEffect(() => {
-    getPicklist("44a7021a-e02e-2a85-16c5-5173bd49bd02")
+    trackLookupCall(getPicklist("44a7021a-e02e-2a85-16c5-5173bd49bd02"))
       .then(setYearOpts)
       .catch(() => setYearOpts([
         { value: "2023-2024", label: "2023-2024" },
@@ -129,9 +140,9 @@ export default function SportsFacilities({ onTabChange, onSave, schoolProfileId,
 
   return (
     <div style={themeStyles.container}>
-      {loadingData && (
-        <div style={{ textAlign: "center", padding: "12px", color: "#888", fontSize: 13 }}>
-          Loading saved data...
+      {(loadingData || lookupLoadingCount > 0) && (
+        <div style={{ width: "100%", height: "100%", top: 0, left: 0, position: "absolute", zIndex: 1000, background: "rgba(255, 255, 255, 0.72)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader />
         </div>
       )}
       {alert && <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />}

@@ -22,7 +22,7 @@ const emptyForm = {
   MenuPhoto:                         null,
 };
 
-export default function DiningFacilitiesDetails({ onTabChange, onSave, schoolProfileId }) {
+export default function DiningFacilitiesDetails({ onTabChange, onSave, schoolProfileId, onLoadingChange }) {
   const [form,        setForm]        = useState(emptyForm);
   const [saving,      setSaving]      = useState(false);
   const [alert,       setAlert]       = useState(null);
@@ -31,6 +31,10 @@ export default function DiningFacilitiesDetails({ onTabChange, onSave, schoolPro
   const [loadingData, setLoadingData] = useState(false);
 
   // ── Load existing record on mount ────────────────────────
+  useEffect(() => {
+    onLoadingChange?.(loadingData);
+  }, [loadingData, onLoadingChange]);
+
   useEffect(() => {
     if (!schoolProfileId) return;
     setLoadingData(true);
@@ -122,13 +126,8 @@ export default function DiningFacilitiesDetails({ onTabChange, onSave, schoolPro
       onSave={handleSave}
       onReset={handleReset}
       saving={saving}
+      loading={loadingData}
     >
-      {loadingData && (
-        <div style={{ textAlign: "center", padding: "12px", color: "#888", fontSize: 13 }}>
-          Loading saved data...
-        </div>
-      )}
-
       <SectionHeading title="Dining Facilities Details" />
 
       <Row3>

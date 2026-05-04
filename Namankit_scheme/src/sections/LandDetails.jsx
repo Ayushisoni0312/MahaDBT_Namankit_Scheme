@@ -15,6 +15,7 @@ import {
 } from "../components/FormFields";
 import { loadLandDetails, submitLandDetails, mapRecordToForm } from "../api/landdetails";
 import { getPicklist } from "../api/liferay";
+import Loader from "../components/Loader";
 
 const YES_NO = ["Yes", "No"];
 
@@ -72,7 +73,7 @@ const emptyClassRow = {
   classroomWithBenches: "", classroomWithoutBenches: "",
 };
 
-export default function LandDetails({ onTabChange, onSave, schoolProfileId }) {
+export default function LandDetails({ onTabChange, onSave, schoolProfileId, onLoadingChange }) {
   const [land,         setLand]         = useState(emptyLand);
   const [classRow,     setClassRow]     = useState(emptyClassRow);
   const [classRows,    setClassRows]    = useState([]);
@@ -89,6 +90,16 @@ export default function LandDetails({ onTabChange, onSave, schoolProfileId }) {
   const [standardOpts,     setStandardOpts]     = useState([]);
   const [ownershipOpts,    setOwnershipOpts]    = useState([]);
   const [sportQualityOpts, setSportQualityOpts] = useState([]);
+  const [lookupLoadingCount, setLookupLoadingCount] = useState(0);
+
+  const trackLookupCall = (promise) => {
+    setLookupLoadingCount((count) => count + 1);
+    return promise.finally(() => setLookupLoadingCount((count) => Math.max(0, count - 1)));
+  };
+
+  useEffect(() => {
+    onLoadingChange?.(loadingData || lookupLoadingCount > 0);
+  }, [loadingData, lookupLoadingCount, onLoadingChange]);
 
   useEffect(() => {
     if (!schoolProfileId) return;
@@ -104,7 +115,7 @@ export default function LandDetails({ onTabChange, onSave, schoolProfileId }) {
   }, [schoolProfileId]);
 
   useEffect(() => {
-    getPicklist("DBT-NAMANKIT-LAND-DETAILS-OWNERSHIP")
+    trackLookupCall(getPicklist("DBT-NAMANKIT-LAND-DETAILS-OWNERSHIP"))
       .then(opts => setOwnershipOpts(opts.map(o => ({ value: Number(o.label), label: o.value }))))
       .catch(() => setOwnershipOpts([
         { value: "Owned",  label: "Owned" },
@@ -113,7 +124,7 @@ export default function LandDetails({ onTabChange, onSave, schoolProfileId }) {
   }, []);
 
   useEffect(() => {
-    getPicklist("DBT-NAMANKIT-LAND-DETAILS-SPORTS-QUALITY")
+    trackLookupCall(getPicklist("DBT-NAMANKIT-LAND-DETAILS-SPORTS-QUALITY"))
       .then(opts => setSportQualityOpts(opts.map(o => ({ value: Number(o.label), label: o.value }))))
       .catch(() => setSportQualityOpts([
         { value: "Best",         label: "Best" },
@@ -124,7 +135,7 @@ export default function LandDetails({ onTabChange, onSave, schoolProfileId }) {
   }, []);
 
   useEffect(() => {
-    getPicklist("dbt-standard-grade")
+    trackLookupCall(getPicklist("dbt-standard-grade"))
       .then(setStandardOpts)
       .catch(() => setStandardOpts(
         Array.from({ length: 12 }, (_, i) => ({ value: String(i + 1), label: String(i + 1) }))
@@ -292,10 +303,10 @@ export default function LandDetails({ onTabChange, onSave, schoolProfileId }) {
   };
 
   return (
-    <div style={{ padding: "16px 20px 32px" }}>
-      {loadingData && (
-        <div style={{ textAlign: "center", padding: "12px", color: "#888", fontSize: 13 }}>
-          Loading saved data...
+    <div style={{ padding: "16px 20px 32px", position: "relative" }}>
+      {(loadingData || lookupLoadingCount > 0) && (
+        <div style={{ width: "100%", height: "100%", top: 0, left: 0, position: "absolute", zIndex: 1000, background: "rgba(255, 255, 255, 0.72)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader />
         </div>
       )}
 

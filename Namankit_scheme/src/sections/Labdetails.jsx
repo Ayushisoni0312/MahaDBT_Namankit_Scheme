@@ -15,6 +15,7 @@ import {
   Alert, BtnSave, BtnReset,
 } from "../components/FormFields";
 import { loadLabDetails, submitLabDetails, mapRecordToForm } from "../api/LabDetails";
+import Loader from "../components/Loader";
 
 const YES_NO = ["Yes", "No"];
 
@@ -34,7 +35,7 @@ const emptyForm = {
   digitalClassroomCount:         "",
 };
 
-export default function LabDetails({ onTabChange, onSave, schoolProfileId }) {
+export default function LabDetails({ onTabChange, onSave, schoolProfileId, onLoadingChange }) {
   const [form,        setForm]        = useState(emptyForm);
   const [photoFile,   setPhotoFile]   = useState(null);
   const [saving,      setSaving]      = useState(false);
@@ -44,6 +45,10 @@ export default function LabDetails({ onTabChange, onSave, schoolProfileId }) {
   const [loadingData, setLoadingData] = useState(false);
 
   // ── Load existing record on mount ────────────────────────
+  useEffect(() => {
+    onLoadingChange?.(loadingData);
+  }, [loadingData, onLoadingChange]);
+
   useEffect(() => {
     if (!schoolProfileId) return;
     setLoadingData(true);
@@ -187,10 +192,10 @@ export default function LabDetails({ onTabChange, onSave, schoolProfileId }) {
   };
 
   return (
-    <div style={{ padding: "16px 20px 32px" }}>
+    <div style={{ padding: "16px 20px 32px", position: "relative" }}>
       {loadingData && (
-        <div style={{ textAlign: "center", padding: "12px", color: "#888", fontSize: 13 }}>
-          Loading saved data...
+        <div style={{ width: "100%", height: "100%", top: 0, left: 0, position: "absolute", zIndex: 1000, background: "rgba(255, 255, 255, 0.72)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader />
         </div>
       )}
 

@@ -9,11 +9,12 @@ import {
   Alert, BtnSave, BtnReset,
 } from "../components/FormFields";
 import { loadLibraryDetails, submitLibraryDetails, mapRecordToForm } from "../api/LibraryDetails";
+import Loader from "../components/Loader";
 
 const YES_NO = ["Yes", "No"];
 
 const themeStyles = {
-  container:     { padding: "var(--spacing-md, 16px) var(--spacing-lg, 20px) var(--spacing-xl, 32px)" },
+  container:     { padding: "var(--spacing-md, 16px) var(--spacing-lg, 20px) var(--spacing-xl, 32px)", position: "relative" },
   card:          { background: "var(--card-bg, #ffffff)", border: "1px solid var(--border-color, #d6e0e0)", borderRadius: "var(--radius-sm, 3px)", padding: "18px 20px 22px" },
   uploadSection: { marginTop: "28px", borderTop: "1px solid var(--divider-color, #cccccc)", paddingTop: "20px" },
   sectionTitle:  { fontSize: "16px", fontWeight: "400", color: "var(--text-primary, #333)", marginBottom: "14px" },
@@ -29,7 +30,7 @@ const emptyForm = {
   noOfBooks:                 "",
 };
 
-export default function LibraryDetails({ onTabChange, onSave, schoolProfileId }) {
+export default function LibraryDetails({ onTabChange, onSave, schoolProfileId, onLoadingChange }) {
   const [form,        setForm]        = useState(emptyForm);
   const [photoFile,   setPhotoFile]   = useState(null);
   const [saving,      setSaving]      = useState(false);
@@ -39,6 +40,10 @@ export default function LibraryDetails({ onTabChange, onSave, schoolProfileId })
   const [loadingData, setLoadingData] = useState(false);
 
   // ── Load existing record on mount ────────────────────────
+  useEffect(() => {
+    onLoadingChange?.(loadingData);
+  }, [loadingData, onLoadingChange]);
+
   useEffect(() => {
     if (!schoolProfileId) return;
     console.log("[LibraryDetails] loading for schoolProfileId →", schoolProfileId);
@@ -105,8 +110,8 @@ export default function LibraryDetails({ onTabChange, onSave, schoolProfileId })
   return (
     <div style={themeStyles.container}>
       {loadingData && (
-        <div style={{ textAlign: "center", padding: "12px", color: "#888", fontSize: 13 }}>
-          Loading saved data...
+        <div style={{ width: "100%", height: "100%", top: 0, left: 0, position: "absolute", zIndex: 1000, background: "rgba(255, 255, 255, 0.72)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader />
         </div>
       )}
       {alert && <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />}

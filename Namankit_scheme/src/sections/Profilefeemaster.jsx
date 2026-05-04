@@ -8,6 +8,7 @@
 import { useState, useEffect } from "react";
 import { loadFeemaster, submitFeemaster, mapRecordsToRows } from "../api/profileFeemaster";
 import { getPicklist } from "../api/liferay";
+import Loader from "../components/Loader";
 
 // FEE_TYPE_OPTS loaded from Liferay picklist
 const emptyInput = { feesItemId: "", itemFeesTDD: "", itemFeesGeneral: "" };
@@ -59,7 +60,7 @@ function useInjectStyles() {
   }, []);
 }
 
-export default function ProfileFeeMaster({ onTabChange, onSave, schoolProfileId }) {
+export default function ProfileFeeMaster({ onTabChange, onSave, schoolProfileId, onLoadingChange }) {
   useInjectStyles();
 
   const [feesPerStudentST,      setFeesPerStudentST]      = useState(0);
@@ -72,11 +73,21 @@ export default function ProfileFeeMaster({ onTabChange, onSave, schoolProfileId 
   const [saving,         setSaving]         = useState(false);
   const [alert,          setAlert]          = useState(null);
   const [loadingData,    setLoadingData]    = useState(false);
+  const [lookupLoadingCount, setLookupLoadingCount] = useState(0);
   const [feeTypeOpts,    setFeeTypeOpts]    = useState([]);
+
+  const trackLookupCall = (promise) => {
+    setLookupLoadingCount((count) => count + 1);
+    return promise.finally(() => setLookupLoadingCount((count) => Math.max(0, count - 1)));
+  };
+
+  useEffect(() => {
+    onLoadingChange?.(loadingData || lookupLoadingCount > 0);
+  }, [loadingData, lookupLoadingCount, onLoadingChange]);
 
   // ── Load Fee Type picklist ───────────────────────────────
   useEffect(() => {
-    getPicklist("DBT-NAMANKIT-SPORTS-FACILITY-FEES")
+    trackLookupCall(getPicklist("DBT-NAMANKIT-SPORTS-FACILITY-FEES"))
       .then(setFeeTypeOpts)
       .catch(() => setFeeTypeOpts([
         { value: "AdmissionFee",   label: "Admission Fee" },
@@ -212,12 +223,12 @@ export default function ProfileFeeMaster({ onTabChange, onSave, schoolProfileId 
   const missingFees = getMissingFees();
 
   return (
-    <div style={{ padding: "16px 20px", background: "#fff", borderRadius: 4 }}>
+    <div style={{ padding: "16px 20px", background: "#fff", borderRadius: 4, position: "relative" }}>
       <div className="pfm-heading">Profile FeeMaster</div>
 
-      {loadingData && (
-        <div style={{ textAlign: "center", padding: "12px", color: "#888", fontSize: 13 }}>
-          Loading saved data...
+      {(loadingData || lookupLoadingCount > 0) && (
+        <div style={{ width: "100%", height: "100%", top: 0, left: 0, position: "absolute", zIndex: 1000, background: "rgba(255, 255, 255, 0.72)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader />
         </div>
       )}
 

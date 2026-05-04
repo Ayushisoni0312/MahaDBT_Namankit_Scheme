@@ -3,10 +3,16 @@
 //  White card + Save/Reset buttons — shared by every tab
 // ============================================================
 import { Alert, BtnSave, BtnReset } from "./FormFields";
+import Loader from "./Loader";
 
-export default function SectionWrapper({ alert, onCloseAlert, onSave, onReset, saving, children }) {
+export default function SectionWrapper({ alert, onCloseAlert, onSave, onReset, saving, loading = false, children }) {
   return (
-    <div style={{ padding: "16px 20px 32px" }}>
+    <div style={{ padding: "16px 20px 32px", position: "relative" }}>
+      {loading && (
+        <div style={{ width: "100%", height: "100%", top: 0, left: 0, position: "absolute", zIndex: 1000, background: "rgba(255, 255, 255, 0.72)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader />
+        </div>
+      )}
       {alert && (
         <Alert type={alert.type} message={alert.message} onClose={onCloseAlert} />
       )}

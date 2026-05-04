@@ -52,7 +52,7 @@ const emptyForm = {
   uploadCancelledChequeImage: null,
 };
 
-export default function SchoolBankDetails({ onTabChange, onSave, schoolProfileId }) {
+export default function SchoolBankDetails({ onTabChange, onSave, schoolProfileId, onLoadingChange }) {
   useInjectStyles();
 
   const [form,            setForm]            = useState(emptyForm);
@@ -64,6 +64,10 @@ export default function SchoolBankDetails({ onTabChange, onSave, schoolProfileId
   const [loadingData,     setLoadingData]     = useState(false);
 
   // ── Load existing record on mount ────────────────────────
+  useEffect(() => {
+    onLoadingChange?.(loadingData);
+  }, [loadingData, onLoadingChange]);
+
   useEffect(() => {
     if (!schoolProfileId) return;
     console.log("[SchoolBankDetails] loading for schoolProfileId →", schoolProfileId);
@@ -138,13 +142,8 @@ export default function SchoolBankDetails({ onTabChange, onSave, schoolProfileId
       onSave={handleSave}
       onReset={handleReset}
       saving={saving}
+      loading={loadingData}
     >
-      {loadingData && (
-        <div style={{ textAlign: "center", padding: "12px", color: "#888", fontSize: 13 }}>
-          Loading saved data...
-        </div>
-      )}
-
       <SectionHeading title="School Bank Details" />
 
       <div className="sbd-row3">
