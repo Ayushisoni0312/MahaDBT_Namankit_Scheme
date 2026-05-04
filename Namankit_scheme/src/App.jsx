@@ -290,38 +290,38 @@ import "./styles/global.css";
 import { getUserRole, setDevRole, logout, ROLES } from "./api/auth";
 import { loadRestrictEntry } from "./api/RestrictEntryMaster"; // ← NEW
 
-import TabNav                    from "./components/TabNav";
-import Footer                    from "./sections/Footer";
-import SchoolListPage            from "./sections/SchoolListPage";
-import SchoolBasicDetails        from "./sections/SchoolBasicDetails";
-import LandDetails               from "./sections/LandDetails";
-import HostelDetails             from "./sections/HostelDetails";
-import DiningFacilitiesDetails   from "./sections/Diningfacilitiesdetails";
-import LabDetails                from "./sections/Labdetails";
-import LibraryDetails            from "./sections/Librarydetails";
-import TeachersDetails           from "./sections/Teachersdetails";
+import TabNav from "./components/TabNav";
+import Footer from "./sections/Footer";
+import SchoolListPage from "./sections/SchoolListPage";
+import SchoolBasicDetails from "./sections/SchoolBasicDetails";
+import LandDetails from "./sections/LandDetails";
+import HostelDetails from "./sections/HostelDetails";
+import DiningFacilitiesDetails from "./sections/Diningfacilitiesdetails";
+import LabDetails from "./sections/Labdetails";
+import LibraryDetails from "./sections/Librarydetails";
+import TeachersDetails from "./sections/Teachersdetails";
 import ExtraCurriculumActivities from "./sections/Extracurriculumactivities";
-import SportsFacilities          from "./sections/Sportsfacilities";
-import MedicalFacilities         from "./sections/Medicalfacilities";
-import ProfileFeeMaster          from "./sections/Profilefeemaster";
-import SchoolBankDetails         from "./sections/Schoolbankdetails";
-import FinalSubmit               from "./sections/FinalSubmit";
-import PreviewPage               from "./sections/PreviewPage";
-import POApprovalList            from "./sections/POApprovalList";
-import POGrading                 from "./sections/POGrading";
-import ATCApprovalList           from "./sections/ATCApprovalList";
-import ATCGrading                from "./sections/ATCGrading";
-import BillGeneration            from "./sections/Billgeneration";
-import DownloadUploadCancelBill  from "./sections/DownloadUploadCancelBill";
-import DownloadGrading           from "./sections/DownloadGrading";
-import UpdateGradingComments     from "./sections/UpdateGradingComments";
-import RestrictEntryMaster       from "./sections/RestrictEntryMaster";
-import TransactionMaster         from "./sections/TransactionMaster";
-import BillReport                from "./sections/BillReport";
-import SchoolMasterForm          from "./schools/SchoolMasterForm";
-import ScheduleMeeting           from "./sections/ScheduleMeeting";
-import StudentRegistration       from "./pages/student-master/StudentRegistration";
-import StudentApproval           from "./pages/PO/StudentApproval";
+import SportsFacilities from "./sections/Sportsfacilities";
+import MedicalFacilities from "./sections/Medicalfacilities";
+import ProfileFeeMaster from "./sections/Profilefeemaster";
+import SchoolBankDetails from "./sections/Schoolbankdetails";
+import FinalSubmit from "./sections/FinalSubmit";
+import PreviewPage from "./sections/PreviewPage";
+import POApprovalList from "./sections/POApprovalList";
+import POGrading from "./sections/POGrading";
+import ATCApprovalList from "./sections/ATCApprovalList";
+import ATCGrading from "./sections/ATCGrading";
+import BillGeneration from "./sections/Billgeneration";
+import DownloadUploadCancelBill from "./sections/DownloadUploadCancelBill";
+import DownloadGrading from "./sections/DownloadGrading";
+import UpdateGradingComments from "./sections/UpdateGradingComments";
+import RestrictEntryMaster from "./sections/RestrictEntryMaster";
+import TransactionMaster from "./sections/TransactionMaster";
+import BillReport from "./sections/BillReport";
+import SchoolMasterForm from "./schools/SchoolMasterForm";
+import ScheduleMeeting from "./sections/ScheduleMeeting";
+import StudentRegistration from "./pages/student-master/StudentRegistration";
+import StudentApproval from "./pages/PO/StudentApproval";
 
 const IS_DEV = window.location.hostname === "localhost";
 
@@ -432,7 +432,7 @@ function DevLoginApp({ onLogin }) {
       .then(({ record }) => {
         if (!record) return;
         const fromDate = record.billstudent; // From School Date
-        const toDate   = record.billarrear;  // To School Date
+        const toDate = record.billarrear;  // To School Date
         if (!fromDate || !toDate) return;
 
         const today = new Date();
@@ -454,10 +454,10 @@ function DevLoginApp({ onLogin }) {
   }, []);
 
   const roles = [
-    { value: ROLES.CONTROLLER, label: "Controller",  icon: "⚙️", desc: "Restrict Entry, Meetings, Transactions" },
-    { value: ROLES.PO,         label: "PO",          icon: "👤", desc: "Approve Schools, Grading, Students" },
-    { value: ROLES.ATC,        label: "ATC",         icon: "🏛️", desc: "ATC Grading, Bill Generation" },
-    { value: ROLES.SCHOOL,     label: "School",      icon: "🏫", desc: "School Profile, Student Registration" },
+    { value: ROLES.CONTROLLER, label: "Controller", icon: "⚙️", desc: "Restrict Entry, Meetings, Transactions" },
+    { value: ROLES.PO, label: "PO", icon: "👤", desc: "Approve Schools, Grading, Students" },
+    { value: ROLES.ATC, label: "ATC", icon: "🏛️", desc: "ATC Grading, Bill Generation" },
+    { value: ROLES.SCHOOL, label: "School", icon: "🏫", desc: "School Profile, Student Registration" },
   ];
 
   return (
@@ -512,7 +512,7 @@ function DevLoginApp({ onLogin }) {
         {regLinkActive && (
           <div style={{ marginTop: 16, borderTop: "1px solid #eee", paddingTop: 16, textAlign: "center" }}>
             <a
-             href="?page=school-registration"
+              href="?page=school-registration"
               style={{ color: "#1a7a8a", fontSize: 13, fontWeight: 600, textDecoration: "underline", cursor: "pointer" }}
             >
               New School Registration for Empanelment
@@ -544,21 +544,21 @@ function UnauthorizedApp() {
 
 // ── Controller App ────────────────────────────────────────────
 const CONTROLLER_NAV = [
-  { key: "restrictEntry",     label: "Restrict Entry Master", icon: "📅" },
-  { key: "transactionMaster", label: "Transaction Master",    icon: "💰" },
-  { key: "billReport",        label: "Bill Report",           icon: "📋" },
-  { key: "meeting",           label: "State Level Meeting",   icon: "🤝" },
+  { key: "restrictEntry", label: "Restrict Entry Master", icon: "📅" },
+  { key: "transactionMaster", label: "Transaction Master", icon: "💰" },
+  { key: "billReport", label: "Bill Report", icon: "📋" },
+  { key: "meeting", label: "State Level Meeting", icon: "🤝" },
 ];
 
 function ControllerApp({ role }) {
   const [screen, setScreen] = useState("restrictEntry");
-
+  console.log('role.....')
   const renderScreen = () => {
     switch (screen) {
-      case "restrictEntry":     return <RestrictEntryMaster />;
+      case "restrictEntry": return <RestrictEntryMaster />;
       case "transactionMaster": return <TransactionMaster />;
-      case "billReport":        return <BillReport />;
-      case "meeting":           return <ScheduleMeeting />;
+      case "billReport": return <BillReport />;
+      case "meeting": return <ScheduleMeeting />;
       default: return null;
     }
   };
@@ -577,13 +577,13 @@ function ControllerApp({ role }) {
 
 // ── PO App ────────────────────────────────────────────────────
 const PO_NAV = [
-  { key: "approveSchool",  label: "Approve School Profile", icon: "🏫" },
-  { key: "poGrading",      label: "PO Grading",             icon: "⭐" },
-  { key: "approveStudent", label: "Approve Students",        icon: "👨‍🎓" },
+  { key: "approveSchool", label: "Approve School Profile", icon: "🏫" },
+  { key: "poGrading", label: "PO Grading", icon: "⭐" },
+  { key: "approveStudent", label: "Approve Students", icon: "👨‍🎓" },
 ];
 
 function POApp({ role }) {
-  const [screen,         setScreen]         = useState("approveSchool");
+  const [screen, setScreen] = useState("approveSchool");
   const [selectedSchool, setSelectedSchool] = useState(null);
 
   const renderScreen = () => {
@@ -617,15 +617,15 @@ function POApp({ role }) {
 
 // ── ATC App ───────────────────────────────────────────────────
 const ATC_NAV = [
-  { key: "atcGrading",      label: "ATC Grading",             icon: "⭐", group: "Grading" },
-  { key: "downloadGrading", label: "Download Grading",        icon: "📊", group: "Grading" },
+  { key: "atcGrading", label: "ATC Grading", icon: "⭐", group: "Grading" },
+  { key: "downloadGrading", label: "Download Grading", icon: "📊", group: "Grading" },
   { key: "gradingComments", label: "Update Grading Comments", icon: "✏️", group: "Grading" },
-  { key: "billGeneration",  label: "Bill Generation",         icon: "🧾", group: "Transactions" },
-  { key: "uploadBill",      label: "Download/Upload/Cancel",  icon: "📤", group: "Transactions" },
+  { key: "billGeneration", label: "Bill Generation", icon: "🧾", group: "Transactions" },
+  { key: "uploadBill", label: "Download/Upload/Cancel", icon: "📤", group: "Transactions" },
 ];
 
 function ATCApp({ role }) {
-  const [screen,         setScreen]         = useState("atcGrading");
+  const [screen, setScreen] = useState("atcGrading");
   const [selectedSchool, setSelectedSchool] = useState(null);
 
   const renderScreen = () => {
@@ -638,8 +638,8 @@ function ATCApp({ role }) {
             selectedSchool={selectedSchool}
           />
         );
-      case "billGeneration":  return <BillGeneration />;
-      case "uploadBill":      return <DownloadUploadCancelBill />;
+      case "billGeneration": return <BillGeneration />;
+      case "uploadBill": return <DownloadUploadCancelBill />;
       case "downloadGrading": return <DownloadGrading />;
       case "gradingComments": return <UpdateGradingComments />;
       default: return null;
@@ -660,29 +660,29 @@ function ATCApp({ role }) {
 
 // ── School App ────────────────────────────────────────────────
 const SCHOOL_NAV = [
-  { key: "schoolList", label: "School Profile",       icon: "🏫" },
+  { key: "schoolList", label: "School Profile", icon: "🏫" },
   { key: "studentReg", label: "Student Registration", icon: "👨‍🎓" },
 ];
 
-export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=false, setShowSchoolProfile=()=>{}, isDisabled=false, selectedSchoolForProfile=null, onSchoolBasicDetailsLoadingChange }) {
+export function SchoolApp({ role = '', list = 'list', hideSidebar = false, hideHeader = false, setShowSchoolProfile = () => { }, isDisabled = false, selectedSchoolForProfile = null, onSchoolBasicDetailsLoadingChange }) {
   console.log("isDisabled", isDisabled);
   const path = window.location.pathname;
   if (path === "/preview") return <PreviewPage />;
- 
-  const [screen,          setScreen]          = useState("schoolList");
-  const [view,            setView]            = useState(list);
-  const [activeTab,       setActiveTab]       = useState("School Basic Details");
+
+  const [screen, setScreen] = useState("schoolList");
+  const [view, setView] = useState(list);
+  const [activeTab, setActiveTab] = useState("School Basic Details");
   const [schoolProfileId, setSchoolProfileId] = useState(selectedSchoolForProfile?.id || null);
-  const [isEditMode,      setIsEditMode]      = useState(Boolean(selectedSchoolForProfile?.id));
-  const [masterData,      setMasterData]      = useState({
+  const [isEditMode, setIsEditMode] = useState(Boolean(selectedSchoolForProfile?.id));
+  const [masterData, setMasterData] = useState({
     schoolBasic: {}, landDetails: {}, hostelDetails: {}, diningDetails: {},
     labDetails: {}, libraryDetails: {}, teacherDetails: {}, extraCurriculum: {},
     sportsDetails: {}, medicalDetails: {}, feeMaster: {}, bankDetails: {},
   });
- 
+
   const handleSaveSection = (key, data) =>
     setMasterData((prev) => ({ ...prev, [key]: data }));
- 
+
   // Handle selected school from POApprovalList for prepopulation
   useEffect(() => {
     if (selectedSchoolForProfile && selectedSchoolForProfile.id) {
@@ -692,12 +692,12 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
       setView("details");
     }
   }, [selectedSchoolForProfile]);
- 
+
   const handleEdit = (schoolId) => {
     setSchoolProfileId(schoolId); setIsEditMode(true);
     setActiveTab("School Basic Details"); setView("details");
   };
- 
+
   const handleNewSchool = () => {
     setSchoolProfileId(null); setIsEditMode(false);
     setMasterData({
@@ -707,28 +707,28 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
     });
     setActiveTab("School Basic Details"); setView("details");
   };
- 
+
   const renderTab = () => {
     const p = { onTabChange: setActiveTab, schoolProfileId, isEditMode };
     switch (activeTab) {
       case "School Basic Details":
         return <SchoolBasicDetails {...p} isDisabled={isDisabled} onLoadingChange={onSchoolBasicDetailsLoadingChange} onSave={(d) => { handleSaveSection("schoolBasic", d); if (d?.schoolId) setSchoolProfileId(d.schoolId); }} />;
-      case "Land Details":                return <LandDetails              {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("landDetails",    d)} />;
-      case "Hostel Details":              return <HostelDetails            {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("hostelDetails",  d)} />;
-      case "Dining Facilities Details":   return <DiningFacilitiesDetails  {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("diningDetails",  d)} />;
-      case "Lab Details":                 return <LabDetails               {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("labDetails",     d)} />;
-      case "Library Details":             return <LibraryDetails           {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("libraryDetails", d)} />;
-      case "Teachers Details":            return <TeachersDetails          {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("teacherDetails", d)} />;
-      case "Extra Curriculum Activities": return <ExtraCurriculumActivities {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("extraCurriculum", d)} />;
-      case "Sports Facilities":           return <SportsFacilities         {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("sportsDetails",  d)} />;
-      case "Medical Facilities":          return <MedicalFacilities        {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("medicalDetails", d)} />;
-      case "Profile FeeMaster":           return <ProfileFeeMaster         {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("feeMaster",      d)} />;
-      case "School Bank Details":         return <SchoolBankDetails        {...p} isDisabled={isDisabled}  onSave={(d) => handleSaveSection("bankDetails",    d)} />;
-      case "Final Submit":                return  <FinalSubmit data={masterData} onTabChange={setActiveTab} schoolProfileId={schoolProfileId} />;
+      case "Land Details": return <LandDetails              {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("landDetails", d)} />;
+      case "Hostel Details": return <HostelDetails            {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("hostelDetails", d)} />;
+      case "Dining Facilities Details": return <DiningFacilitiesDetails  {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("diningDetails", d)} />;
+      case "Lab Details": return <LabDetails               {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("labDetails", d)} />;
+      case "Library Details": return <LibraryDetails           {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("libraryDetails", d)} />;
+      case "Teachers Details": return <TeachersDetails          {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("teacherDetails", d)} />;
+      case "Extra Curriculum Activities": return <ExtraCurriculumActivities {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("extraCurriculum", d)} />;
+      case "Sports Facilities": return <SportsFacilities         {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("sportsDetails", d)} />;
+      case "Medical Facilities": return <MedicalFacilities        {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("medicalDetails", d)} />;
+      case "Profile FeeMaster": return <ProfileFeeMaster         {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("feeMaster", d)} />;
+      case "School Bank Details": return <SchoolBankDetails        {...p} isDisabled={isDisabled} onSave={(d) => handleSaveSection("bankDetails", d)} />;
+      case "Final Submit": return <FinalSubmit data={masterData} onTabChange={setActiveTab} schoolProfileId={schoolProfileId} />;
       default: return null;
     }
   };
- 
+
   // Helper: deep-check if an object has any meaningful (non-empty) value
   const hasFilled = (obj) => {
     if (obj == null) return false;
@@ -740,22 +740,22 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
     }
     return false;
   };
- 
+
   const SECTION_ORDER = [
-    ["schoolBasic",    "School Basic Details"],
-    ["landDetails",    "Land Details"],
-    ["hostelDetails",  "Hostel Details"],
-    ["diningDetails",  "Dining Facilities Details"],
-    ["labDetails",     "Lab Details"],
+    ["schoolBasic", "School Basic Details"],
+    ["landDetails", "Land Details"],
+    ["hostelDetails", "Hostel Details"],
+    ["diningDetails", "Dining Facilities Details"],
+    ["labDetails", "Lab Details"],
     ["libraryDetails", "Library Details"],
     ["teacherDetails", "Teachers Details"],
-    ["extraCurriculum","Extra Curriculum Activities"],
-    ["sportsDetails",  "Sports Facilities"],
+    ["extraCurriculum", "Extra Curriculum Activities"],
+    ["sportsDetails", "Sports Facilities"],
     ["medicalDetails", "Medical Facilities"],
-    ["feeMaster",      "Profile FeeMaster"],
-    ["bankDetails",    "School Bank Details"],
+    ["feeMaster", "Profile FeeMaster"],
+    ["bankDetails", "School Bank Details"],
   ];
- 
+
   const validateMasterData = (data) => {
     const missing = [];
     for (const [key, label] of SECTION_ORDER) {
@@ -763,7 +763,7 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
     }
     return missing;
   };
- 
+
   const handleTabChange = (tab) => {
     if (tab === "Final Submit") {
       const missing = validateMasterData(masterData);
@@ -777,7 +777,7 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
     }
     setActiveTab(tab);
   };
- 
+
   const renderScreen = () => {
     switch (screen) {
       case "schoolList":
@@ -796,7 +796,8 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
         return (
           <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
             <div style={{ background: "#f0f4f5", padding: "8px 20px", borderBottom: "1px solid #dee2e6", display: "flex", alignItems: "center", gap: 12 }}>
-              <button onClick={() => {setView("list");
+              <button onClick={() => {
+                setView("list");
                 setShowSchoolProfile?.(false);
               }} style={{ background: "none", border: "1px solid #1a7a8a", color: "#1a7a8a", borderRadius: 4, padding: "5px 14px", fontSize: 13, cursor: "pointer" }}>
                 ← Back to List
@@ -807,7 +808,7 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
                 </span>
               )}
             </div>
-            <TabNav activeTab={activeTab} onTabChange={handleTabChange} isDisabled={isDisabled}/>
+            <TabNav activeTab={activeTab} onTabChange={handleTabChange} isDisabled={isDisabled} />
             <div style={{ background: "#f0f4f5", flex: 1 }}>{renderTab()}</div>
           </div>
         );
@@ -816,7 +817,7 @@ export function SchoolApp({ role='' ,list='list', hideSidebar=false,hideHeader=f
       default: return null;
     }
   };
- 
+
   return (
     <div style={st.pageWrap}>
       {!hideHeader && <Header title="Namankit — School Panel" role={role} />}
@@ -847,22 +848,22 @@ export default function App() {
   const path = window.location.pathname;
 
   // ✅ PUBLIC — no role check needed, must be FIRST
-   if (
+  if (
     page === "school-registration" ||
-    page === "school-master" 
+    page === "school-master"
     // path.includes("schoolregistration") ||
     // path.includes("school-registration")
   ) {
     return <SchoolMasterForm />;
   }
 
-  const [role,    setRole]    = useState(null);
+  const [role, setRole] = useState(null);
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     getUserRole()
-      .then((r)   => setRole(r))
-      .catch(()   => setRole(null))
+      .then((r) => setRole(r))
+      .catch(() => setRole(null))
       .finally(() => setChecked(true));
   }, []);
 
@@ -875,9 +876,9 @@ export default function App() {
 
   switch (role) {
     case ROLES.CONTROLLER: return <ControllerApp role={role} />;
-    case ROLES.PO:         return <POApp         role={role} />;
-    case ROLES.ATC:        return <ATCApp        role={role} />;
-    case ROLES.SCHOOL:     return <SchoolApp     role={role} />;
-   default:               return <SchoolMasterForm />
+    case ROLES.PO: return <POApp role={role} />;
+    case ROLES.ATC: return <ATCApp role={role} />;
+    case ROLES.SCHOOL: return <SchoolApp role={role} />;
+    default: return <SchoolMasterForm />
   }
 }
